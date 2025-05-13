@@ -14,7 +14,7 @@ const mockResponse = () => {
     return res;
 };
 
-describe('Тестирование метода registration из AuthController', () => {
+describe('Тестирование метода /auth/registration', () => {
     const req = {
         body: {
             email: 'user__email', 
@@ -55,8 +55,56 @@ describe('Тестирование метода registration из AuthController
         expect(Helpers.generateAccessToken).toHaveBeenCalledTimes(0);
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-            message: "Данный пользователь уже существует",
+            message: "Данный пользователь уже существует"
         }));
     });
-    
+
 });
+
+describe('Тестирование метода /auth/login', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    const req = {
+        body: {
+            email: 'user__email', 
+            password: 'user__password'
+        },
+    } as Request;
+    it('Метод возвращает 400 статус код и сообщение об отсутствии пользователя при некорректных данных', async () => {
+        const res = mockResponse();
+
+        (User.findOne as jest.Mock).mockResolvedValueOnce(null);
+
+        await AuthController.login(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            message: "Пользователя не существует",
+        }));
+    })
+    it('Метод возвращает 200 статус код и сообщение об успешном входе, при корректно введенных данных', async () => {
+        const res = mockResponse();
+
+        (User.findOne as jest.Mock).mockResolvedValueOnce({ password: "user__password" });
+
+        await AuthController.login(req, res);
+        
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            message: "Успешный вход",
+        }));
+    })
+    it('Метод возвращает 400 статус код и сообщение о неверном пароле, при неверном пароле', async () => {
+        const res = mockResponse();
+
+        (User.findOne as jest.Mock).mockResolvedValueOnce({ password: "user__password__uncorrect" });
+
+        await AuthController.login(req, res);
+        
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            message: "Неверный пароль",
+        }));
+    })
+})
