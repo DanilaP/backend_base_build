@@ -18,6 +18,7 @@ class AuthController {
                     password: password, 
                     avatar: "avatar",
                 });
+
                 await user.save();
                 const token = helpers.generateAccessToken(user._id);
 
@@ -32,6 +33,28 @@ class AuthController {
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка регистрации" });
+            console.log(error);
+        }
+    }
+    async login(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                res.status(400).json({ message: "Пользователя не существует" });
+            }
+            else {
+                if (password === user.password) {
+                    res.status(200).json({ message: "Успешный вход" });
+                }
+                else {
+                    res.status(400).json({ message: "Неверный пароль" });
+                }
+            }
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка входа" });
             console.log(error);
         }
     }
