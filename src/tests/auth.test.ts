@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-const AuthController = require('../controllers/auth/controller');
+import AuthController from '../controllers/auth/controller';
 const Helpers = require('../helpers/user-helpers');
 const User = require('../models/user/user');
 

@@ -3,7 +3,7 @@ const User = require("../../models/user/user");
 const helpers = require('../../helpers/user-helpers');
 
 class AuthController {
-    async registration(req: Request, res: Response) {
+    static async registration(req: Request, res: Response) {
         try {
             const { email, password, name } = req.body;
             const user = await User.findOne({ email });
@@ -36,7 +36,7 @@ class AuthController {
             console.log(error);
         }
     }
-    async login(req: Request, res: Response) {
+    static async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email });
@@ -60,4 +60,4 @@ class AuthController {
     }
 }
 
-module.exports = new AuthController()
+export default AuthController;

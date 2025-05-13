@@ -1,19 +1,19 @@
-const cors = require('cors');
-const express = require('express');
-const mongoose = require('mongoose');
-const fileUpload = require('express-fileupload');
-const http = require('http');
-const ws = require('ws');
-const AuthRouter = require('./src/controllers/auth/router');
-const cookieParser = require('cookie-parser');
-const AuthMiddleware = require('./src/middlewares/auth-middleware');
+import express from 'express';
+import mongoose from 'mongoose';
+import fileUpload from 'express-fileupload';
+import http from 'http';
+import ws from 'ws';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import AuthRouter from './src/controllers/auth/router'; 
+import AuthMiddleware from './src/middlewares/auth-middleware'; 
 
 const PORT = 5000;
 const app = express();
 const server = http.createServer(app);
 const BD_URL = `mongodb://localhost:27017/admin`;
 
-app.use(AuthMiddleware);
+app.use(AuthMiddleware as express.RequestHandler);
 app.use(cookieParser());
 app.use(cors({ 
     origin: '*',
