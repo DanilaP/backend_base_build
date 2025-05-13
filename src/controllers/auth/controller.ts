@@ -1,0 +1,33 @@
+import { Request, Response } from 'express';
+const User = require("../../models/user/user");
+const helpers = require('../../helpers/user-helpers');
+
+class AuthController {
+    async registration(req: Request, res: Response) {
+        try {
+            const { email, password, name } = req.body;
+            const user = await User.findOne({ email });
+    
+            if (user) {
+                res.status(400).json({ message: "Данный пользователь уже существует" });
+            }
+            else {
+                const user = new User({
+                    name: name,
+                    email: email, 
+                    password: password, 
+                    avatar: "avatar",
+                });
+                await user.save();
+                const token = helpers.generateAccessToken(user._id);
+                res.status(200).json({ message: "Регистрация прошла успешно", user: user, token: token });
+            }
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка регистрации" });
+            console.log(error);
+        }
+    }
+}
+
+module.exports = new AuthController()
