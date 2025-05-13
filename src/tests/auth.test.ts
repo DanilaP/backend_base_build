@@ -14,18 +14,19 @@ const mockResponse = () => {
     return res;
 };
 
-const req = {
-    body: {
-        email: 'user__email', 
-        password: 'user__password',
-        name: 'user__name',
-    },
-} as Request;
-
 describe('Тестирование метода registration из AuthController', () => {
+    const req = {
+        body: {
+            email: 'user__email', 
+            password: 'user__password',
+            name: 'user__name',
+        },
+    } as Request;
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
+
     it(`Метод возвращает объект с информацией о пользователе и сообщение о завершении при корректно переданных данных`, async () => {
         const res = mockResponse();
         
@@ -57,4 +58,5 @@ describe('Тестирование метода registration из AuthController
             message: "Данный пользователь уже существует",
         }));
     });
+    
 });
