@@ -20,7 +20,14 @@ class AuthController {
                 });
                 await user.save();
                 const token = helpers.generateAccessToken(user._id);
-                res.status(200).json({ message: "Регистрация прошла успешно", user: user, token: token });
+
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    secure: false,
+                    maxAge: 24 * 60 * 60 * 1000,
+                    sameSite: 'strict'
+                });
+                res.status(200).json({ message: "Регистрация прошла успешно", user: user });
             }
         }
         catch (error) {

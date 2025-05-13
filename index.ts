@@ -5,13 +5,18 @@ const fileUpload = require('express-fileupload');
 const http = require('http');
 const ws = require('ws');
 const AuthRouter = require('./src/controllers/auth/router');
+const cookieParser = require('cookie-parser');
 
 const PORT = 5000;
 const app = express();
 const server = http.createServer(app);
 const BD_URL = `mongodb://localhost:27017/admin`;
 
-app.use(cors({ origin: '*' }));
+app.use(cookieParser());
+app.use(cors({ 
+    origin: '*',
+    credentials: true 
+}));
 mongoose.set('strictQuery', false);
 
 app.use(fileUpload());
