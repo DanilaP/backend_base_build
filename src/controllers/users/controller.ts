@@ -5,8 +5,8 @@ import helpers from '../../helpers/user-helpers';
 class AuthController {
     static async createUser(req: Request, res: Response) {
         try {
-            const token = helpers.getUserFromToken(req);
-            console.log(token);
+            const user = await helpers.getUserFromToken(req);
+            res.status(200).json({ message: "Получение данных пользователя", user: user });
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при создании пользователя" });
@@ -15,7 +15,12 @@ class AuthController {
     }
     static async deleteUser(req: Request, res: Response) {
         try {
-            
+            const user = await helpers.getUserFromToken(req);
+
+            if (user) {
+                await User.deleteOne({ _id: user?._id });
+                res.status(200).json({ message: "Успешное удаление данных пользователя" });
+            }
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при удалении данных о пользователе" });

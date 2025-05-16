@@ -14,8 +14,8 @@ const app = express();
 const server = http.createServer(app);
 const BD_URL = `mongodb://localhost:27017/admin`;
 
-app.use(AuthMiddleware as express.RequestHandler);
 app.use(cookieParser());
+app.use(AuthMiddleware as express.RequestHandler);
 app.use(cors({ 
     origin: '*',
     credentials: true 
