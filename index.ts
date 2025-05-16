@@ -6,7 +6,7 @@ import ws from 'ws';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import AuthRouter from './src/controllers/auth/router'; 
-import UserRouter from './src/controllers/users/router';
+import UserRouter from './src/controllers/user/router';
 import AuthMiddleware from './src/middlewares/auth-middleware'; 
 
 const PORT = 5000;
