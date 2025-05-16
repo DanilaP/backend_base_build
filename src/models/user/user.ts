@@ -5,6 +5,11 @@ const User = new Schema({
     password: { type: String, required: true },
     name: { type: String, required: true },
     avatar: { type: String },
-});
+    },
+    { 
+        strict: "throw",
+        strictQuery: true 
+    }
+);
 
 export default model('User', User);
