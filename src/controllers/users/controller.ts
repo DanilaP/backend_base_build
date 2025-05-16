@@ -36,7 +36,9 @@ class AuthController {
     }
     static async updateUser(req: Request, res: Response) {
         try {
-            
+            const updatedUserInfo = req.body.user;
+            await User.updateOne({ _id: updatedUserInfo._id }, { $set: updatedUserInfo });
+            res.status(200).json({ message: "Успешное обновление данных о пользователе" });
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка обновления данных о пользователе" });
