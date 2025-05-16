@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-const User = require("../../models/user/user");
-const helpers = require('../../helpers/user-helpers');
+import User from '../../models/user/user';
+import helpers from '../../helpers/user-helpers';
 
 class AuthController {
     static async registration(req: Request, res: Response) {
