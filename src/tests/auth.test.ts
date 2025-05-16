@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import AuthController from '../controllers/auth/controller';
-const Helpers = require('../helpers/user-helpers');
-const User = require('../models/user/user');
+import Helpers from '../helpers/user-helpers';
+import User from '../models/user/user';
 
 jest.mock('../models/user/user');
 jest.mock('../helpers/user-helpers');
