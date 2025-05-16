@@ -1,5 +1,4 @@
 import { Request } from "express";
-import { ObjectId } from "mongoose";
 import User from "../models/user/user";
 import jwt from "jsonwebtoken";
 const jwt_decode = require("jwt-decode");
