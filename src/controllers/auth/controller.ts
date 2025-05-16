@@ -21,13 +21,8 @@ class AuthController {
 
                 await user.save();
                 const token = helpers.generateAccessToken(user._id);
-
-                res.cookie('token', token, {
-                    httpOnly: true,
-                    secure: false,
-                    maxAge: 24 * 60 * 60 * 1000,
-                    sameSite: 'strict'
-                });
+                helpers.setTokenToTheResponse(res, token);
+                
                 res.status(200).json({ message: "Регистрация прошла успешно", user: user });
             }
         }
@@ -46,6 +41,8 @@ class AuthController {
             }
             else {
                 if (password === user.password) {
+                    const token = helpers.generateAccessToken(user._id);
+                    helpers.setTokenToTheResponse(res, token);
                     res.status(200).json({ message: "Успешный вход" });
                 }
                 else {

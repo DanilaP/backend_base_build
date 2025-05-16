@@ -1,11 +1,11 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import User from "../models/user/user";
 import jwt from "jsonwebtoken";
 const jwt_decode = require("jwt-decode");
 
 async function getUserFromToken(req: Request) {
     try {
-        const token = req.headers.authorization;    
+        const token = req.cookies.token;    
         const userId = jwt_decode(token);
         const user = await User.findOne({ _id: userId.id });
         return user;
@@ -24,4 +24,14 @@ function generateAccessToken(id: any) {
     return token;
 }
 
-export default { getUserFromToken, generateAccessToken };
+function setTokenToTheResponse(res: Response, token: string) {
+    const responseWithCookies = res;
+    responseWithCookies.cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'strict'
+    });
+}
+
+export default { getUserFromToken, generateAccessToken, setTokenToTheResponse };

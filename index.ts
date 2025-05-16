@@ -6,6 +6,7 @@ import ws from 'ws';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import AuthRouter from './src/controllers/auth/router'; 
+import UserRouter from './src/controllers/users/router';
 import AuthMiddleware from './src/middlewares/auth-middleware'; 
 
 const PORT = 5000;
@@ -27,6 +28,7 @@ app.use(express.static('./src/static'));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', AuthRouter);
+app.use('/user', UserRouter);
 
 const socketserver = new ws.Server({ server });
 
