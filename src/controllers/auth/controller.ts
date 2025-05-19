@@ -16,7 +16,7 @@ class AuthController {
                     name: name,
                     email: email, 
                     password: password, 
-                    avatar: "avatar",
+                    avatar: `${ process.env.HOST_URL }/uploaded-files/avatar.png`,
                 });
 
                 await user.save();

@@ -9,10 +9,12 @@ import AuthRouter from './src/controllers/auth/router';
 import UserRouter from './src/controllers/user/router';
 import AuthMiddleware from './src/middlewares/auth-middleware'; 
 
-const PORT = 5000;
+require('dotenv').config();
+
+const PORT = process.env.PORT;
 const app = express();
 const server = http.createServer(app);
-const BD_URL = `mongodb://localhost:27017/admin`;
+const DB_URL = process.env.DB_URL as string;
 
 app.use(cookieParser());
 app.use(AuthMiddleware as express.RequestHandler);
@@ -34,7 +36,7 @@ const socketserver = new ws.Server({ server });
 
 async function startApp() {
     try {
-        await mongoose.connect(BD_URL);
+        await mongoose.connect(DB_URL);
         server.listen(PORT, () => console.log('Server started at PORT' + " " + PORT));
     } catch (error) {
         console.error(error);
