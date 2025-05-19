@@ -15,8 +15,7 @@ class AuthController {
                 const user = new User({
                     name: name,
                     email: email, 
-                    password: password, 
-                    avatar: `${ process.env.HOST_URL }/uploaded-files/avatar.png`,
+                    password: password
                 });
 
                 await user.save();

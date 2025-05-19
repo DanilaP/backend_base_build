@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { model, Schema } from 'mongoose';
 
 const User = new Schema(
@@ -16,7 +17,8 @@ const User = new Schema(
             required: true 
         },
         avatar: { 
-            type: String 
+            type: String,
+            default: `${ process.env.HOST_URL }/uploaded-files/avatar.png`,
         },
         posts: [{ 
             type: String, 
