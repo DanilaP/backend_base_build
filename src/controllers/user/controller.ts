@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../../models/user/user';
+import fsHelpers from '../../helpers/fs-helpers';
 
 class AuthController {
     static async getUser(req: Request, res: Response) {
@@ -36,7 +37,11 @@ class AuthController {
     }
     static async updateUser(req: Request, res: Response) {
         try {
-            const updatedUserInfo = req.body.user;
+            const updatedUserInfo = JSON.parse(req.body.user);
+            if (req.files) {
+                const file = await fsHelpers.uploadFiles(req.files);
+                updatedUserInfo.avatar = file.filelist[0].url;
+            }
             await User.updateOne({ _id: updatedUserInfo._id }, { $set: updatedUserInfo });
             res.status(200).json({ message: "Успешное обновление данных о пользователе" });
         }

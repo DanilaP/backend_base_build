@@ -22,7 +22,7 @@ app.use(cors({
 }));
 mongoose.set('strictQuery', false);
 
-app.use(fileUpload());
+app.use(fileUpload({ createParentPath: true }));
 app.use(express.json());
 app.use(express.static('./src/static'));
 app.use(express.urlencoded({ extended: true }));

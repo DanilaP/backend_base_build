@@ -4,7 +4,7 @@ const router = Router();
 
 router.get('/', UserController.getUser);
 router.post('/', UserController.createUser);
-router.put('/', UserController.updateUser);
+router.post('/edit', UserController.updateUser);
 router.delete('/', UserController.deleteUser);
 
 export default router;
