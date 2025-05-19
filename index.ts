@@ -24,7 +24,7 @@ mongoose.set('strictQuery', false);
 
 app.use(fileUpload({ createParentPath: true }));
 app.use(express.json());
-app.use(express.static('./src/static'));
+app.use(express.static('./static'));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', AuthRouter);
