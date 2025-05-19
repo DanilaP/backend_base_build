@@ -7,7 +7,7 @@ class AuthController {
         try {
             const { email, password, name } = req.body;
             const user = await User.findOne({ email });
-    
+
             if (user) {
                 res.status(400).json({ message: "Данный пользователь уже существует" });
             }
@@ -20,6 +20,7 @@ class AuthController {
                 });
 
                 await user.save();
+
                 const token = helpers.generateAccessToken(user._id);
                 helpers.setTokenToTheResponse(res, token);
                 
