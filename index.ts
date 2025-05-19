@@ -5,9 +5,10 @@ import http from 'http';
 import ws from 'ws';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import AuthMiddleware from './src/middlewares/auth-middleware'; 
 import AuthRouter from './src/controllers/auth/router'; 
 import UserRouter from './src/controllers/user/router';
-import AuthMiddleware from './src/middlewares/auth-middleware'; 
+import PostRouter from './src/controllers/post/router';
 
 require('dotenv').config();
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', AuthRouter);
 app.use('/user', UserRouter);
+app.use('/post', PostRouter);
 
 const socketserver = new ws.Server({ server });
 

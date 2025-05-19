@@ -8,14 +8,14 @@ async function uploadFiles (files: any) {
             const currentDate = Date.now();
             const uniqueFileStats = `${ currentDate + "_" + file.size + "_"  + fileName }`;
 
-            file.mv(`./static/uploaded-files/${ uniqueFileStats  }`, function (err: Error) {
+            file.mv(`./static/user-avatars/${ uniqueFileStats  }`, function (err: Error) {
                 if (err) {
                     console.log(err);
                 } 
             });
 
             filelist = [...filelist, {
-                url: `http://localhost:5000/uploaded-files/${ uniqueFileStats }`,
+                url: `${ process.env.HOST_URL }/user-avatars/${ uniqueFileStats }`,
                 name: fileName,
                 size: file.size
             }];
