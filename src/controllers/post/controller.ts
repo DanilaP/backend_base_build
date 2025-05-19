@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
+import userHelpers from '../../helpers/user-helpers';
+import fsHelpers from '../../helpers/fs-helpers';
+import Post from '../../models/post/post';
 
 class PostsController {
     static async createPost(req: Request, res: Response) {
         try {
-            
+            const user = await userHelpers.getUserFromToken(req);
+            const post = new Post({ 
+                user_id: user?._id,
+                text: req.body.text,
+                files: req.files ? (await fsHelpers.uploadFiles(req.files)).filelist : []
+            });
+            await post.save();
+            res.status(200).json({ message: "Успешное создание поста", post: post });
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при создании поста" });

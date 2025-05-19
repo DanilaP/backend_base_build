@@ -10,10 +10,10 @@ const Post = new Schema(
             type: String,
             default: ""
         },
-        files: [{
-            type: String,
+        files: {
+            type: Array,
             default: []
-        }],
+        },
         likes: [{
             type: String,
             default: 0
