@@ -83,7 +83,6 @@ describe('Тестирование метода delete /user', () => {
         }));
     })
 })
-
 describe("Тестирование метода post /user", () => {
     beforeEach(() => {
         jest.clearAllMocks();
