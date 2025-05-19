@@ -6,7 +6,12 @@ class AuthController {
     static async getUser(req: Request, res: Response) {
         try {
             const user = await User.findOne({ _id: req.query.id }, { password: 0 });
-            res.status(200).json({ message: "Получение данных пользователя", user: user });
+            if (user) {
+                res.status(200).json({ message: "Получение данных пользователя", user: user });
+            }
+            else {
+                res.status(400).json({ message: "Пользователь не найден" });
+            }
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при получении данных пользователя" });
@@ -16,8 +21,13 @@ class AuthController {
     static async deleteUser(req: Request, res: Response) {
         try {
             const userId = req.query.id;
-            await User.deleteOne({ _id: userId });
-            res.status(200).json({ message: "Успешное удаление данных пользователя" });
+            const result = await User.deleteOne({ _id: userId });
+            if (result.deletedCount > 0) {
+                res.status(200).json({ message: "Успешное удаление данных пользователя" });
+            }
+            else {
+                res.status(400).json({ message: "Пользователь не найден" });
+            }
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при удалении данных о пользователе" });
