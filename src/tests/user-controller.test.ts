@@ -59,8 +59,12 @@ describe('Тестирование метода delete /user', () => {
     });
     const req: any = {
         body: {
-            email: 'user__email', 
-            password: 'user__password'
+            user: {
+                name: "new_user", 
+                email: "new_email", 
+                password: "new_password",
+                avatar: "new_avatar"
+            }
         },
         query: {
             id: 'some_id'
@@ -78,16 +82,52 @@ describe('Тестирование метода delete /user', () => {
             message: "Успешное удаление данных пользователя"
         }));
     })
-    it('Метод возвращает 400 статус код и сообщение о том, что пользователь не найден, если пользователь не существует', async () => {
+})
+
+describe("Тестирование метода post /user", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    const req: any = {
+        body: {
+            user: {
+                name: "new_user", 
+                email: "new_email", 
+                password: "new_password",
+                avatar: "new_avatar"
+            }
+        },
+        query: {
+            id: 'some_id'
+        }
+    };
+    const uncorrectReq: any = {
+        body: {
+            user: {}
+        },
+        query: {
+            id: 'some_id'
+        }
+    };
+    it('Метод возвращает 200 статус код и сообщение об успешном создании пользователя при валидных данных', async () => {
         const res = mockResponse();
-
-        (User.deleteOne as jest.Mock).mockResolvedValueOnce({ deletedCount: 0 });
-
-        await UserController.deleteUser(req, res);
+        await UserController.createUser(req, res);
+        
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            user: expect.anything(),
+            message: "Успешное создание пользователя"
+        }));
+    })
+    it('Метод возвращает 400 статус код и сообщение об успешном создании пользователя при невалидных данных', async () => {
+        const res = mockResponse();
+        User.prototype.save.mockRejectedValue(new Error('Validation failed'));
+        
+        await UserController.createUser(uncorrectReq, res);
         
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-            message: "Пользователь не найден"
+            message: "Ошибка при создании пользователя"
         }));
     })
 })
