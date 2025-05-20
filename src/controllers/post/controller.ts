@@ -65,7 +65,7 @@ class PostsController {
                         }
                     ]
                 );
-                res.status(200).json({ message: "Лайк зарегестрирован" });
+                res.status(200).json({ message: "Информация о лайке изменена" });
             }
             else {
                 res.status(400).json({ message: "Пост не найден" });
