@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt, { JwtPayload } from "jsonwebtoken";
 import userHelpers from '../../helpers/user-helpers';
 import fsHelpers from '../../helpers/fs-helpers';
 import Post from '../../models/post/post';
@@ -40,6 +41,38 @@ class PostsController {
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при удалении поста" });
+            console.log(error);
+        }
+    }
+    static async likePost(req: Request, res: Response) {
+        try {
+            const userId = (jwt.decode(req.cookies?.token) as JwtPayload).id.toString();
+            const post = await Post.findOne({ _id: req.body.id }); 
+            if (post) {
+                await Post.updateOne(
+                    { _id: req.body.id }, 
+                    [ 
+                        {
+                            $set: {
+                                likes: {
+                                    $cond: [
+                                        { $in: [userId, "$likes"] },
+                                        { $filter: { input: "$likes", cond: { $ne: ["$$this", userId] } } },
+                                        { $concatArrays: ["$likes", [userId]] }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                );
+                res.status(200).json({ message: "Лайк зарегестрирован" });
+            }
+            else {
+                res.status(400).json({ message: "Пост не найден" });
+            }
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка при изменении информации о посте" });
             console.log(error);
         }
     }
