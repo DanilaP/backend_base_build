@@ -104,6 +104,31 @@ class PostsController {
             console.log(error);
         }
     }
+    static async deleteComment(req: Request, res: Response) {
+        try {
+            const userId = (jwt.decode(req.cookies?.token) as JwtPayload).id.toString(); 
+            await Post.updateOne(
+                { 
+                    _id: req.query.postId,
+                    "comments._id": req.query.commentId,
+                    "comments.user_id": userId
+                },
+                { 
+                    $pull: { 
+                        comments: { 
+                            _id: req.query.commentId,
+                            user_id: userId
+                        } 
+                    } 
+                }
+            );
+            res.status(200).json({ message: "Комментарий успешно удален" });
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка при удалении комментария" });
+            console.log(error);
+        }
+    }
 }
 
 export default PostsController;
