@@ -17,7 +17,16 @@ const Post = new Schema(
         likes: [{
             type: String,
             default: 0
-        }]
+        }],
+        comments: [{
+            type: {
+                user_id: String,
+                text: String,
+                files: Array,
+                likes: Array
+            },
+            default: []
+        }],
     },
     { 
         strict: "throw",

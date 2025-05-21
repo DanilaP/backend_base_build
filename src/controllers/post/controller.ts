@@ -76,6 +76,34 @@ class PostsController {
             console.log(error);
         }
     }
+    static async addComment(req: Request, res: Response) {
+        try {
+            const userId = (jwt.decode(req.cookies?.token) as JwtPayload).id.toString();
+            const post = await Post.findOne({ _id: req.body.postId }); 
+            const commentText = req.body.text;
+
+            if (post) {
+                const updatedComments = [
+                    ...post.comments,
+                    {   
+                        user_id: userId,
+                        text: commentText,
+                        files: req.files ? (await fsHelpers.uploadFiles(req.files)).filelist : [],
+                        likes: []
+                    }
+                ];
+                await Post.updateOne({ _id: req.body.postId }, { $set: { comments: updatedComments } });
+                res.status(200).json({ message: "Комментарий успешно добавлен" });
+            }
+            else {
+                res.status(400).json({ message: "Пост не найден" });
+            }
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка при изменении информации о посте" });
+            console.log(error);
+        }
+    }
 }
 
 export default PostsController;

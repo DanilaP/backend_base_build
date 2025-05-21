@@ -5,5 +5,6 @@ const router = Router();
 router.post('/', PostsController.createPost);
 router.delete('/', PostsController.deletePost);
 router.post('/like', PostsController.likePost);
+router.post('/comment', PostsController.addComment);
 
 export default router;
