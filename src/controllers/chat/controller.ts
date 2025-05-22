@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { broadcastMessage } from '../../../websocket';
 import Dialogs from '../../models/dialogs/dialogs';
 import fsHelpers from '../../helpers/fs-helpers';
 import moment from 'moment';
@@ -6,7 +7,7 @@ import moment from 'moment';
 class ChatController {
     static async sendMessage(req: Request, res: Response) {
         try {
-            const { dialog_id, sender_id, opponent_id, text } = req.body;
+            let { dialog_id, sender_id, opponent_id, text } = req.body;
             const message = {
                 date: moment(Date.now()).format('YYYY:MM:DD'),
                 sender_id,
@@ -21,8 +22,16 @@ class ChatController {
                     members: [sender_id, opponent_id],
                     messages: [message]
                 });
+                dialog_id = dialog._id;
                 dialog.save();
             }
+
+            broadcastMessage([opponent_id], {
+                type: 'new_message',
+                dialog_id: dialog_id,
+                message
+            });
+
             res.status(200).json({ message: "Сообщение успешно отправлено", messageInfo: message });
         }
         catch (error) {

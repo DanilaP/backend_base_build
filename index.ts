@@ -1,8 +1,8 @@
+import { initWebSocket } from './websocket';
 import express from 'express';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import http from 'http';
-import ws from 'ws';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import AuthMiddleware from './src/middlewares/auth-middleware'; 
@@ -38,7 +38,7 @@ app.use('/post', PostRouter);
 app.use('/users', UsersRouter);
 app.use('/chat', ChatRouter);
 
-const socketserver = new ws.Server({ server });
+initWebSocket(server);
 
 async function startApp() {
     try {
