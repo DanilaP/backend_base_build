@@ -6,7 +6,7 @@ class AuthController {
     static async registration(req: Request, res: Response) {
         try {
             const { email, password, name } = req.body;
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }, { password: 0 });
 
             if (user) {
                 res.status(400).json({ message: "Данный пользователь уже существует" });
@@ -34,7 +34,7 @@ class AuthController {
     static async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }, { password: 0 });
 
             if (!user) {
                 res.status(400).json({ message: "Пользователя не существует" });
