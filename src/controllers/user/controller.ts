@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import User from '../../models/user/user';
 import fsHelpers from '../../helpers/fs-helpers';
+import userHelpers from '../../helpers/user-helpers';
 
 class AuthController {
     static async getUser(req: Request, res: Response) {
         try {
-            const user = await User.findOne({ _id: req.query.id }, { password: 0 });
+            const user = await userHelpers.getUserFromToken(req);
             if (user) {
                 res.status(200).json({ message: "Получение данных пользователя", user: user });
             }
