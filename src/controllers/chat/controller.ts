@@ -30,6 +30,28 @@ class ChatController {
             console.log(error);
         }
     }
+    static async deleteMessage(req: Request, res: Response) {
+        try {
+            const { dialog_id, message_id } = req.query;
+            await Dialogs.updateOne(
+                { 
+                    dialog_id
+                },
+                { 
+                    $pull: { 
+                        messages: { 
+                            _id: message_id
+                        } 
+                    } 
+                }
+            );
+            res.status(200).json({ message: "Сообщение успешно удалено" });
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка при удалении сообщения" });
+            console.log(error);
+        }
+    }
 }
 
 export default ChatController;
