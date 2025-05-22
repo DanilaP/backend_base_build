@@ -15,7 +15,6 @@ class ChatController {
             }
             if (dialog_id) {
                 await Dialogs.updateOne({ _id: dialog_id }, { $push: { messages: message } });
-                res.status(200).json({ message: "Сообщение успешно отправлено", messageInfo: message });
             }
             else {
                 const dialog = new Dialogs({
@@ -23,8 +22,8 @@ class ChatController {
                     messages: [message]
                 });
                 dialog.save();
-                res.status(200).json({ message: "Сообщение успешно отправлено", messageInfo: message });
             }
+            res.status(200).json({ message: "Сообщение успешно отправлено", messageInfo: message });
         }
         catch (error) {
             res.status(400).json({ message: "Ошибка при отправке сообщения" });
