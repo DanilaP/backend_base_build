@@ -43,7 +43,7 @@ class AuthController {
                 if (password === user.password) {
                     const token = helpers.generateAccessToken(user._id);
                     helpers.setTokenToTheResponse(res, token);
-                    res.status(200).json({ message: "Успешный вход" });
+                    res.status(200).json({ message: "Успешный вход", user: user });
                 }
                 else {
                     res.status(400).json({ message: "Неверный пароль" });
@@ -53,6 +53,16 @@ class AuthController {
         catch (error) {
             res.status(400).json({ message: "Ошибка входа" });
             console.log(error);
+        }
+    }
+    static async logout(req: Request, res: Response) {
+        try {
+            res.clearCookie("token");
+            res.status(200).send('Успешный выход из аккаунта');
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).send('Ошибка выхода из аккаунта');
         }
     }
 }

@@ -3,6 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import userHelpers from '../../helpers/user-helpers';
 import fsHelpers from '../../helpers/fs-helpers';
 import Post from '../../models/post/post';
+import User from '../../models/user/user';
 
 class PostsController {
     static async createPost(req: Request, res: Response) {
@@ -14,6 +15,7 @@ class PostsController {
                 files: req.files ? (await fsHelpers.uploadFiles(req.files)).filelist : []
             });
             await post.save();
+            await User.updateOne({ _id: user?._id }, { $push: { posts: post._id } });
             res.status(200).json({ message: "Успешное создание поста", post: post });
         }
         catch (error) {
