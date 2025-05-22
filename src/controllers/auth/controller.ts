@@ -34,7 +34,7 @@ class AuthController {
     static async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
-            const user = await User.findOne({ email }, { password: 0 });
+            const user = await User.findOne({ email });
 
             if (!user) {
                 res.status(400).json({ message: "Пользователя не существует" });
@@ -43,7 +43,7 @@ class AuthController {
                 if (password === user.password) {
                     const token = helpers.generateAccessToken(user._id);
                     helpers.setTokenToTheResponse(res, token);
-                    res.status(200).json({ message: "Успешный вход", user: user });
+                    res.status(200).json({ message: "Успешный вход", user });
                 }
                 else {
                     res.status(400).json({ message: "Неверный пароль" });

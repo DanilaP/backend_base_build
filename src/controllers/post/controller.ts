@@ -131,6 +131,16 @@ class PostsController {
             console.log(error);
         }
     }
+    static async getUserPostsInfo(req: Request, res: Response) {
+        try {
+            const postsInfo = await Post.find({ user_id: req.query.id });
+            res.status(400).json({ message: "Успешное получение информации о постах", posts: postsInfo });
+        }
+        catch (error) {
+            res.status(400).json({ message: "Ошибка при получении информации о постах" });
+            console.log(error);
+        }
+    }
 }
 
 export default PostsController;

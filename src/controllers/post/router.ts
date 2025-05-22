@@ -7,5 +7,6 @@ router.delete('/', PostsController.deletePost);
 router.post('/like', PostsController.likePost);
 router.post('/comment', PostsController.addComment);
 router.delete('/comment', PostsController.deleteComment);
+router.get('/', PostsController.getUserPostsInfo);
 
 export default router;
