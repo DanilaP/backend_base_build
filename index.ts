@@ -10,6 +10,7 @@ import AuthRouter from './src/controllers/auth/router';
 import UserRouter from './src/controllers/user/router';
 import UsersRouter from './src/controllers/users/router';
 import PostRouter from './src/controllers/post/router';
+import ChatRouter from './src/controllers/chat/router';
 
 require('dotenv').config();
 
@@ -35,6 +36,7 @@ app.use('/auth', AuthRouter);
 app.use('/user', UserRouter);
 app.use('/post', PostRouter);
 app.use('/users', UsersRouter);
+app.use('/chat', ChatRouter);
 
 const socketserver = new ws.Server({ server });
 
