@@ -18,7 +18,7 @@ const User = new Schema(
         },
         avatar: { 
             type: String,
-            default: `${ process.env.HOST_URL }/files/avatar.png`,
+            default: `${ process.env.HOST_URL }/files/avatar.jpeg`,
         },
         posts: [{ 
             type: String, 
