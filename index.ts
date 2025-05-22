@@ -21,7 +21,7 @@ const DB_URL = process.env.DB_URL as string;
 app.use(cookieParser());
 app.use(AuthMiddleware as express.RequestHandler);
 app.use(cors({ 
-    origin: '*',
+    origin: 'http://localhost:3000',
     credentials: true 
 }));
 mongoose.set('strictQuery', false);
