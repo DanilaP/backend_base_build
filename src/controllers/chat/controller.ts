@@ -3,6 +3,7 @@ import { broadcastMessage } from '../../../websocket';
 import Dialogs from '../../models/dialogs/dialogs';
 import fsHelpers from '../../helpers/fs-helpers';
 import moment from 'moment';
+import dialogs from '../../models/dialogs/dialogs';
 
 class ChatController {
     static async sendMessage(req: Request, res: Response) {
@@ -54,6 +55,15 @@ class ChatController {
                     } 
                 }
             );
+            const dialog = await Dialogs.findOne({ _id: dialog_id });
+            if (dialog) {
+                broadcastMessage(dialog.members, {
+                    type: 'new_message',
+                    dialog_id: dialog_id,
+                    messages: dialog.messages
+                });
+            }
+
             res.status(200).json({ message: "Сообщение успешно удалено" });
         }
         catch (error) {
