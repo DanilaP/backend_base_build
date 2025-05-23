@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { broadcastMessage } from '../../../websocket';
+import { broadcastMessage } from '../../websocket/websocket';
 import Dialogs from '../../models/dialogs/dialogs';
 import fsHelpers from '../../helpers/fs-helpers';
 import moment from 'moment';
