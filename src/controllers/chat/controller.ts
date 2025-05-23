@@ -3,7 +3,6 @@ import { broadcastMessage } from '../../../websocket';
 import Dialogs from '../../models/dialogs/dialogs';
 import fsHelpers from '../../helpers/fs-helpers';
 import moment from 'moment';
-import dialogs from '../../models/dialogs/dialogs';
 
 class ChatController {
     static async sendMessage(req: Request, res: Response) {
