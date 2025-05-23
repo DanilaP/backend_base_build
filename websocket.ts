@@ -1,8 +1,6 @@
 import { Request } from 'express';
 import jwt, { JwtPayload } from "jsonwebtoken";
 import * as ws from 'ws';
-import * as cookie from 'cookie';
-const jwt_decode = require('jwt-decode');
 
 let socketserver: ws.Server;
 let clients: { userws: ws, userId: string }[] = [];
