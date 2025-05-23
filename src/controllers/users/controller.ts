@@ -19,7 +19,7 @@ class UsersController {
             res.status(200).json({ message: "Успешное получение фильтрованного списка пользователей", users });
         }
         catch (error) {
-            res.status(400).json({ message: "Ошибка получения фильтрованного списка пользователей" });
+            res.status(400).json({ message: "Ошибка получения фильтрованного списка пользователей", users: [] });
             console.log(error);
         }
     }
