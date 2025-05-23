@@ -48,12 +48,13 @@ class AuthController {
     }
     static async updateUser(req: Request, res: Response) {
         try {
+            const user = await userHelpers.getUserFromToken(req);
             const updatedUserInfo = JSON.parse(req.body.user);
             if (req.files) {
                 const file = await fsHelpers.uploadFiles(req.files);
                 updatedUserInfo.avatar = file.filelist[0].url;
             }
-            await User.updateOne({ _id: updatedUserInfo._id }, { $set: updatedUserInfo });
+            await User.updateOne({ _id: user?._id }, { $set: updatedUserInfo });
             res.status(200).json({ message: "Успешное обновление данных о пользователе", user: updatedUserInfo });
         }
         catch (error) {

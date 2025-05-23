@@ -20,6 +20,10 @@ const User = new Schema(
             type: String,
             default: `${ process.env.HOST_URL }/files/avatar.jpeg`,
         },
+        status: { 
+            type: String, 
+            default: "" 
+        },
         posts: [{ 
             type: String, 
             default: [] 

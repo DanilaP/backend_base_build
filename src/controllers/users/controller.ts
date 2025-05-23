@@ -4,7 +4,7 @@ import User from '../../models/user/user';
 class UsersController {
     static async getUsers(req: Request, res: Response) {
         try {
-            const users = await User.find({});
+            const users = await User.find({}, { name: 1, avatar: 1, status: 1 });
             res.status(200).json({ message: "Успешное получение списка пользователей", users });
         }
         catch (error) {
