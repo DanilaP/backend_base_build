@@ -1,4 +1,4 @@
-import { initWebSocket } from './websocket';
+import { initWebSocket } from './src/websocket/websocket';
 import express from 'express';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
