@@ -20,12 +20,13 @@ const app = express();
 const server = http.createServer(app);
 const DB_URL = process.env.DB_URL as string;
 
-app.use(cookieParser());
-app.use(AuthMiddleware as express.RequestHandler);
 app.use(cors({ 
     origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], 
     credentials: true 
 }));
+app.use(cookieParser());
+app.use(AuthMiddleware as express.RequestHandler);
 mongoose.set('strictQuery', false);
 
 app.use(fileUpload({ createParentPath: true }));
