@@ -53,6 +53,9 @@ class AuthController {
             if (req.files) {
                 const file = await fsHelpers.uploadFiles(req.files);
                 updatedUserInfo.avatar = file.filelist[0].url;
+
+                const avatarURL = user!.avatar.replace(process.env.HOST_URL as string, `./static`) as string;
+                await fsHelpers.removeFiles([avatarURL]);
             }
             await User.updateOne({ _id: user?._id }, { $set: updatedUserInfo });
             res.status(200).json({ message: "Успешное обновление данных о пользователе", user: updatedUserInfo });
