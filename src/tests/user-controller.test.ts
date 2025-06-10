@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import UserController from '../controllers/user/controller';
-import Helpers from '../helpers/user-helpers';
 import User from '../models/user/user';
+import userHelpers from '../helpers/user-helpers';
 
 jest.mock('../models/user/user');
 jest.mock('../helpers/user-helpers');
@@ -30,8 +30,8 @@ describe('Тестирование метода get /user', () => {
     it('Метод возвращает 200 статус код и сообщение об успешном получении данных если пользователь найден', async () => {
         const res = mockResponse();
 
-        (User.findOne as jest.Mock).mockResolvedValueOnce({ name: "name", email: "email", avatar: "avatar" });
-
+        (userHelpers.getUserFromToken as jest.Mock).mockResolvedValueOnce({ name: "name", email: "email", avatar: "avatar" });
+        
         await UserController.getUser(req, res);
         
         expect(res.status).toHaveBeenCalledWith(200);

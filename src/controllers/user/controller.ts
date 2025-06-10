@@ -3,7 +3,7 @@ import User from '../../models/user/user';
 import fsHelpers from '../../helpers/fs-helpers';
 import userHelpers from '../../helpers/user-helpers';
 
-class AuthController {
+class UserController {
     static async getUser(req: Request, res: Response) {
         try {
             const user = await userHelpers.getUserFromToken(req);
@@ -67,4 +67,4 @@ class AuthController {
     }
 }
 
-export default AuthController;
+export default UserController;
