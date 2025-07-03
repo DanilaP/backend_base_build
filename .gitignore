@@ -1,4 +1,6 @@
 /static
 /node_modules
+
 .env 
+
 package-lock.json
